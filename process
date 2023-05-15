@@ -1,0 +1,61 @@
+#process image
+
+import cv2
+import mediapipe as mp
+import csv
+import os
+
+mp_drawing = mp.solutions.drawing_utils
+mp_pose = mp.solutions.pose
+
+cap = cv2.VideoCapture(0)
+count = 0
+
+with mp_pose.Pose(
+        min_detection_confidence=0.5,
+        min_tracking_confidence=0.5) as pose:
+    fields = ['frame', 'nose_x', 'nose_y', 'left_shoulder_x', 'left_shoulder_y', 'right_shoulder_x', 'right_shoulder_y',
+              'left_elbow_x', 'left_elbow_y', 'right_elbow_x', 'right_elbow_y', 'left_wrist_x', 'left_wrist_y',
+              'right_wrist_x', 'right_wrist_y',
+              'left_hip_x', 'left_hip_y', 'right_hip_x', 'right_hip_y', 'left_knee_x', 'left_knee_y', 'right_knee_x',
+              'right_knee_y',
+              'left_ankle_x', 'left_ankle_y', 'right_ankle_x', 'right_ankle_y']
+    filename = 'pose_data1.csv'
+    with open(filename, 'w') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(fields)
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image.flags.writeable = False
+        results = pose.process(image)
+        image.flags.writeable = True
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+        if results.pose_landmarks is not None:
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+        cv2.imshow('Pose Estimation', image)
+        # for results.pose_landmarks in fields:
+        #     print(results.pose_landmarks.landmark.x, results.pose_landmarks.landmark.y )
+
+        if (count % 10 == 0):
+            num_coords = len(results.pose_landmarks.landmark)
+            # print(results.pose_landmarks.value)
+            row = [count] + [
+                results.pose_landmarks.landmark[i].x if results.pose_landmarks.landmark[i] is not None else float('nan')
+                for i in range(num_coords)] + \
+                  [results.pose_landmarks.landmark[i].y if results.pose_landmarks.landmark[i] is not None else float(
+                      'nan') for i in range(num_coords)]
+            with open(filename, 'a') as csvfile:
+                csvwriter = csv.writer(csvfile)
+                csvwriter.writerow(row)
+        count += 1
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+cap.release()
+cv2.destroyAllWindows()
