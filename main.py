@@ -1,11 +1,16 @@
-# صفحه اصلی 
+#main page 
+
+
 
 import streamlit as st
 import streamlit.components.v1 as components
 import streamlit_text_annotation as st_text_annotation
 
 
-html_string = '''
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+htm_string = '''
 <head>
   <meta charset="utf-8">
 </head>
@@ -50,7 +55,7 @@ html_string = '''
         left: 'center',
         top: 'center',
         style: {
-          text: 'Sehat',
+          text: 'صحت',
           fontSize: 80,
           fontWeight: 'bold',
           lineDash: [0, 200],
@@ -100,12 +105,12 @@ html_string = '''
 </body>
 '''
 
-components.html(html_string)  # JavaScript works
+components.html(htm_string)  # JavaScript works
 
-st.title('Sehat')
+st.title('اپلیکیشن کمک‌یار ورزشی')
 
 
-recorded_file = 'output_sample.mp4'
-sample_vid = st.empty()
-sample_vid.video(recorded_file)
-st.write()
+# recorded_file = 'pages/lt.mov'
+# sample_vid = st.empty()
+# sample_vid.video(recorded_file)
+st.write("ستایش سلطانی نگین نظری")
