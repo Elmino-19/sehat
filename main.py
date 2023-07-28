@@ -1,116 +1,57 @@
-#main page 
-
+# به منظور اجرای برنامه Streamlit، شما باید ابتدا کتابخانه‌های مورد نیاز را نصب کنید. برای این کار، می‌توانید از فایل requirements.txt استفاده کنید. در ترمینال، به مسیر پروژه خود بروید و دستور زیر را وارد کنید:
+#pip install -r requirements.txt
+# این دستور، تمام کتابخانه‌های مورد نیاز را بر اساس فایل requirements.txt نصب خواهد کرد.
+#
+# سپس، برای اجرای برنامه، باید دستور زیر را در ترمینال وارد کنید:
+#
+#  streamlit run main.py
+#
+#در نهایت برنامه بر روی مرورگر شما قابل اجرا است
 
 
 import streamlit as st
 import streamlit.components.v1 as components
-import streamlit_text_annotation as st_text_annotation
+import hydralit_components as hc
 
 
-with open('style.css') as f:
+#make it look nice from the start
+
+st.set_page_config(layout='wide',initial_sidebar_state='collapsed')
+
+with open('pages/static/style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-htm_string = '''
-<head>
-  <meta charset="utf-8">
-</head>
-<body style="height: 100%; margin: 0">
-  <div id="container" style="height: 100%"></div>
 
+# specify the primary menu definition
+menu_data = [
+    {'icon': "fas fa-file-upload", 'label':"بارگذاری ویدیو"},
+    {'icon': "fas fa-camera", 'label':"بررسی صحت حرکت"}]
+over_theme = {'txc_inactive': '#FFFFFF'}
+menu_id = hc.nav_bar(
+    menu_definition=menu_data,
+    override_theme=over_theme,
+    home_name='صفحه اصلی',
+    login_name='ورود/خروج',
+    hide_streamlit_markers=True, #will show the st hamburger as well as the navbar now!
+    sticky_nav=False, #at the top or not
+    sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
+)
 
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
-  <!-- Uncomment this line if you want to dataTool extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/extension/dataTool.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to use gl extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to echarts-stat extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to use map
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
-  -->
-  <!-- Uncomment these two lines if you want to use bmap extension
-  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/extension/bmap.min.js"></script>
-  -->
+#get the id of the menu item clicked
+st.info(f"{menu_id}")
 
-  <script type="text/javascript">
-    var dom = document.getElementById('container');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-
-    var option;
-
-    option = {
-  graphic: {
-    elements: [
-      {
-        type: 'text',
-        left: 'center',
-        top: 'center',
-        style: {
-          text: 'صحت',
-          fontSize: 80,
-          fontWeight: 'bold',
-          lineDash: [0, 200],
-          lineDashOffset: 0,
-          fill: 'transparent',
-          stroke: '#327fa8',
-          lineWidth: 1
-        },
-        keyframeAnimation: {
-          duration: 4000,
-          loop: true,
-          keyframes: [
-            {
-              percent: 0.7,
-              style: {
-                fill: 'transparent',
-                lineDashOffset: 200,
-                lineDash: [200, 0]
-              }
-            },
-            {
-              // Stop for a while.
-              percent: .7,
-              style: {
-                fill: 'transparent'
-              }
-            },
-            {
-              percent: 1,
-              style: {
-                fill: '#66ccff'
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
-};
-
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
-    }
-
-    window.addEventListener('resize', myChart.resize);
-  </script>
-</body>
-'''
-
-components.html(htm_string)  # JavaScript works
-
-st.title('اپلیکیشن کمک‌یار ورزشی')
-
-
-# recorded_file = 'pages/lt.mov'
-# sample_vid = st.empty()
-# sample_vid.video(recorded_file)
-st.write("ستایش سلطانی نگین نظری")
+if menu_id == 'ورود/خروج':
+    from authentication import main
+    main()
+    
+elif menu_id == 'صفحه اصلی':
+    from main_page import main
+    main()
+ 
+elif menu_id == "بارگذاری ویدیو":
+    from upload_video import main
+    main()
+ 
+elif menu_id == "بررسی صحت حرکت":
+    from camera import main 
+    main()

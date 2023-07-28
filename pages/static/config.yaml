@@ -1,0 +1,43 @@
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+credentials:
+  usernames:
+    drphilo:
+      email: dr.philotum@gmail.com
+      name: siavash
+      password: $2b$12$Sg75g0DXFmPpD3NDunf4F.7tLRAaxY0C4rjcaWnPO1iKER6yJG1i.
+    elmino:
+      email: mrerf.19@gmail.com
+      name: mr erf
+      password: $2b$12$vXEb2SvRt.3hkpB4b9KI.eundMI502labRF7FvWAXFd4pulAmKQNy
+    erf:
+      email: elmino.19@gmail.com
+      name: dr erf
+      password: $2b$12$m1oyY7nDP3KttWLHP31Gt.P./kPO6yl319UTZiSoXoNTqBfvosCVe
+    jj:
+      email: soss252@outlook.com
+      name: jj
+      password: $2b$12$joFWXVaG0Kj2gfEksr9iFe97nOx3TjzOHDsivIvrGTnj85R.2Ycse
+    kk:
+      email: soltaniis259@gmail.com
+      name: kk
+      password: $2b$12$epFe6RsczOnTZAvdmVArkev22wFHoATLpmZguPfk9WqYD/xisCC9y
+    ll:
+      email: soltaniis259@gmail.com
+      name: ll
+      password: $2b$12$cQoXFVp9sWITyl7ZXbOoc.CJk0dEiLdAgz/6qE35zGt.ZJZUL.PR.
+    qq:
+      email: arezoorad460@gmail.com
+      name: qq
+      password: $2b$12$6vxmPvg5fRkSijOMZozWA.241MKUD.SXgjAqRHJAJoZKRGOwbJlh.
+    seti:
+      email: soltaniis259@gmail.com
+      name: seti
+      password: $2b$12$cAhshror8..bcwa1EgV4NObydw5zYkH.qB9pOCXkuD6coxCofAUpa
+otp: 8437
+preauthorized:
+  emails:
+  - zelzeleh.19@gmail.com
+random_password: XLdPBjYndJYfeV7L
